@@ -3,6 +3,11 @@
   "version": "0.0.0",
   "description": "Verify ASiC (Associated Signature Container)",
   "main": "index.js",
+  "files": [
+    "cli.js",
+    "index.js",
+    "lib/"
+  ],
   "bin": {
     "asic-verify": "./cli.js"
   },
