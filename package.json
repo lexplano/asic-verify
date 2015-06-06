@@ -23,5 +23,12 @@
   "bugs": {
     "url": "https://github.com/lexplano/asic-verify/issues"
   },
-  "homepage": "https://github.com/lexplano/asic-verify#readme"
+  "homepage": "https://github.com/lexplano/asic-verify#readme",
+  "dependencies": {
+    "concat-stream": "1.x",
+    "lodash": "3.x",
+    "q": "1.x",
+    "xml2js": "0.4.x",
+    "yauzl": "2.x"
+  }
 }
