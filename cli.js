@@ -1,3 +1,5 @@
+"use strict";
+
 var fn = process.argv[2];
 
 if (!fn) {

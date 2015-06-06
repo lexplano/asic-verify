@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "concat-stream": "1.x",
+    "denodeify": "1.x",
     "lodash": "3.x",
     "q": "1.x",
     "xml2js": "0.4.x",
