@@ -18,7 +18,7 @@
     "crypto",
     "zip"
   ],
-  "author": "MB H6.LT",
+  "author": "MB H6.LT <info@lexplano.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/lexplano/asic-verify/issues"
