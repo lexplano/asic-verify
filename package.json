@@ -24,6 +24,9 @@
     "url": "https://github.com/lexplano/asic-verify/issues"
   },
   "homepage": "https://github.com/lexplano/asic-verify#readme",
+  "engines": {
+    "node": ">=1"
+  },
   "dependencies": {
     "concat-stream": "1.x",
     "lodash": "3.x",
