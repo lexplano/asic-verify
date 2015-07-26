@@ -12,7 +12,8 @@
     "asic-verify": "./cli.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/*.test.js lib/*.js",
+    "dev": "mocha --watch test/*.test.js lib/*.js"
   },
   "repository": {
     "type": "git",
@@ -40,5 +41,9 @@
     "xml-crypto": "0.6.x",
     "xml2js": "0.4.x",
     "yauzl": "2.x"
+  },
+  "devDependencies": {
+    "expect.js": "0.3.x",
+    "mocha": "2.x"
   }
 }
