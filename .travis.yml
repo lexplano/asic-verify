@@ -4,5 +4,4 @@ before_install:
   npm i -g npm
 matrix:
   include:
-    - node_js: "0.12"
     - node_js: "io.js"
