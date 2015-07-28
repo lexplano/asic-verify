@@ -1,6 +1,6 @@
 "use strict";
 
-/*global describe, it */
+/*global describe, it, beforeEach, afterEach */
 
 const expect = require("expect.js"),
 	path = require("path"),
