@@ -3,19 +3,16 @@
 /*global describe, it, beforeEach, afterEach */
 
 const expect = require("expect.js"),
-	path = require("path"),
-	fs = require("fs"),
+	fixtures = require("../fixtures"),
 	getZip = require("../../lib/getZip"),
 	findEntry = require("../../lib/findEntry"),
 	getZipEntryXml = require("../../lib/getZipEntryXml");
-
-const FIXTURE_FILE_PATH = path.join(__dirname, "../fixtures/valid.zip");
 
 describe("getZipEntryXml()", function () {
 
 	var fixtureZip;
 	beforeEach(function (done) {
-		getZip(FIXTURE_FILE_PATH, function (err, zip) {
+		getZip(fixtures.VALID_ZIP_PATH, function (err, zip) {
 			fixtureZip = zip;
 			done(err);
 		});
@@ -37,7 +34,7 @@ describe("getZipEntryXml()", function () {
 				}
 			});
 
-			expect(data.raw.toString()).to.eql(fs.readFileSync(path.join(__dirname, "../fixtures/PaketoInfo.xml")).toString());
+			expect(data.raw.toString()).to.eql(fixtures.PAKETO_INFO_XML);
 		});
 	});
 

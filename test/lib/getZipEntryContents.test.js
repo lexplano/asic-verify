@@ -3,18 +3,16 @@
 /*global describe, it, beforeEach, afterEach */
 
 const expect = require("expect.js"),
-	path = require("path"),
+	fixtures = require("../fixtures"),
 	getZip = require("../../lib/getZip"),
 	findEntry = require("../../lib/findEntry"),
 	getZipEntryContents = require("../../lib/getZipEntryContents");
-
-const FIXTURE_FILE_PATH = path.join(__dirname, "../fixtures/valid.zip");
 
 describe("getZipEntryContents()", function () {
 
 	var fixtureZip;
 	beforeEach(function (done) {
-		getZip(FIXTURE_FILE_PATH, function (err, zip) {
+		getZip(fixtures.VALID_ZIP_PATH, function (err, zip) {
 			fixtureZip = zip;
 			done(err);
 		});

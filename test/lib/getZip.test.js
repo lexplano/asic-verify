@@ -1,13 +1,11 @@
 "use strict";
 
-/*global describe, it, beforeEach, afterEach */
+/*global describe, it */
 
 const expect = require("expect.js"),
-	path = require("path"),
+	fixtures = require("../fixtures"),
 	getZip = require("../../lib/getZip"),
 	yauzl = require("yauzl");
-
-const FIXTURE_FILE_PATH = path.join(__dirname, "../fixtures/valid.zip");
 
 function getFileName(entry) {
 	return entry.fileName;
@@ -16,7 +14,7 @@ function getFileName(entry) {
 describe("getZip()", function () {
 
 	it("should return a zip descriptor with entries", function (done) {
-		getZip(FIXTURE_FILE_PATH, function (err, zip) {
+		getZip(fixtures.VALID_ZIP_PATH, function (err, zip) {
 			expect(err).to.be(null);
 			expect(zip.zipFile instanceof yauzl.ZipFile).to.be(true, "Epecting instance of ZipFile");
 			expect(zip.zipFile.isOpen).to.be(true, "ZipFile should not be closed");
