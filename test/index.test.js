@@ -6,11 +6,11 @@ const expect = require("expect.js"),
 	path = require("path"),
 	asicVerify = require("../index");
 
-const FIXTURE_FILE_PATH = path.join(__dirname, "fixture.zip");
+const FIXTURE_FILE_PATH = path.join(__dirname, "./fixtures/valid.zip");
 
 describe("asic-verify", function () {
 
-	it("should return OK for fixture.zip", function (done) {
+	it("should return OK for valid.zip", function (done) {
 		asicVerify(FIXTURE_FILE_PATH, function (e) {
 			expect(e).to.be(null);
 			done();

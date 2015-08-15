@@ -4,10 +4,10 @@
 
 const expect = require("expect.js"),
 	path = require("path"),
-	getZip = require("../lib/getZip"),
-	findEntry = require("../lib/findEntry");
+	getZip = require("../../lib/getZip"),
+	findEntry = require("../../lib/findEntry");
 
-const FIXTURE_FILE_PATH = path.join(__dirname, "fixture.zip");
+const FIXTURE_FILE_PATH = path.join(__dirname, "../fixtures/valid.zip");
 
 describe("findEntry()", function () {
 

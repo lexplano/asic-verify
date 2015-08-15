@@ -11,8 +11,8 @@
     "asic-verify": "./cli.js"
   },
   "scripts": {
-    "test": "istanbul cover _mocha test/*.test.js lib/*.js",
-    "dev": "mocha --watch test/*.test.js lib/*.js"
+    "test": "istanbul cover _mocha test/*.test.js test/**/*.test.js",
+    "dev": "mocha --watch test/*.test.js test/**/*.test.js lib/*.js"
   },
   "repository": {
     "type": "git",

@@ -4,11 +4,11 @@
 
 const expect = require("expect.js"),
 	path = require("path"),
-	getZip = require("../lib/getZip"),
-	findEntry = require("../lib/findEntry"),
-	getZipEntrySha256 = require("../lib/getZipEntrySha256");
+	getZip = require("../../lib/getZip"),
+	findEntry = require("../../lib/findEntry"),
+	getZipEntrySha256 = require("../../lib/getZipEntrySha256");
 
-const FIXTURE_FILE_PATH = path.join(__dirname, "fixture.zip");
+const FIXTURE_FILE_PATH = path.join(__dirname, "../fixtures/valid.zip");
 
 describe("getZipEntrySha256()", function () {
 
