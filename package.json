@@ -2,17 +2,16 @@
   "name": "asic-verify",
   "version": "0.1.1",
   "description": "Verify ASiC (Associated Signature Container)",
-  "main": "index.js",
+  "main": "lib/index.js",
   "files": [
     "cli.js",
-    "index.js",
     "lib/"
   ],
   "bin": {
     "asic-verify": "./cli.js"
   },
   "scripts": {
-    "test": "mocha test/*.test.js lib/*.js",
+    "test": "istanbul cover _mocha test/*.test.js lib/*.js",
     "dev": "mocha --watch test/*.test.js lib/*.js"
   },
   "repository": {
@@ -44,6 +43,7 @@
   },
   "devDependencies": {
     "expect.js": "0.3.x",
+    "istanbul": "0.3.x",
     "mocha": "2.x"
   }
 }

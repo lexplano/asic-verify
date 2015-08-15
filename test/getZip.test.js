@@ -58,4 +58,6 @@ describe("getZip()", function () {
 		});
 	});
 
+	it("should erroback when file corrupt");
+
 });
