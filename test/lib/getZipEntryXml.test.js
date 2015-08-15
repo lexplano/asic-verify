@@ -4,6 +4,7 @@
 
 const expect = require("expect.js"),
 	path = require("path"),
+	fs = require("fs"),
 	getZip = require("../../lib/getZip"),
 	findEntry = require("../../lib/findEntry"),
 	getZipEntryXml = require("../../lib/getZipEntryXml");
@@ -25,8 +26,8 @@ describe("getZipEntryXml()", function () {
 	});
 
 	it("should return the parsed XML of an entry", function () {
-		return getZipEntryXml(fixtureZip.zipFile, findEntry(fixtureZip.entries, "PaketoInfo.xml")).then(function (xml) {
-			expect(xml).to.eql({
+		return getZipEntryXml(fixtureZip.zipFile, findEntry(fixtureZip.entries, "PaketoInfo.xml")).then(function (data) {
+			expect(data.xml).to.eql({
 				paketoInfo: {
 					"ID": ["8CDFB892-BC65-4192-AA23-907A5F856662"],
 					"PaketoDydisMB": ["1"],
@@ -35,6 +36,8 @@ describe("getZipEntryXml()", function () {
 					"TeisėsAktaiNuo": ["2015-07-21"]
 				}
 			});
+
+			expect(data.raw.toString()).to.eql(fs.readFileSync(path.join(__dirname, "../fixtures/PaketoInfo.xml")).toString());
 		});
 	});
 
