@@ -12,9 +12,9 @@ function verifyAsic(fn, cb) {
 		}
 
 		Promise.all([verifyMimetype(zip), verifyManifest(zip), verifySignatures(zip)])
-			.then(function () {
+			.then(function (res) {
 				zip.zipFile.close(); // @todo: we'll probably need a lib with finally() support...
-				cb(null);
+				cb(null, res[2]);
 			})
 			.catch(function (err) {
 				zip.zipFile.close();

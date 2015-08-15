@@ -6,12 +6,14 @@ Verify ASiC (Associated Signature Container)
 ```js
 var asicVerify = require("asic-verify");
 
-asicVerify("/path/to/some-package.asice", function(err) {
+asicVerify("/path/to/some-package.asice", function(err, signedSignatureProperties) {
 
 	if (err) {
 		console.error("Verification failed with an error", err);
 	} else {
 		console.log("Verified OK");
+		console.log("Signed on ", signedSignatureProperties.signingTime);
+		console.log("Signed by ", signedSignatureProperties.signingCertificate);
 	}
 
 });

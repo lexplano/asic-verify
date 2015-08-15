@@ -40,6 +40,7 @@
     "q": "1.x",
     "xml-crypto": "0.6.x",
     "xml2js": "0.4.x",
+    "xmldom": "0.1.x",
     "yauzl": "2.x"
   },
   "devDependencies": {
