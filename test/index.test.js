@@ -10,13 +10,9 @@ describe("asic-verify", function () {
 
 	it("should return OK for valid.zip", function (done) {
 		asicVerify(fixtures.VALID_ZIP_PATH, function (e, signatureInfo) {
-			try {
-				expect(e).to.be(null);
-				expect(signatureInfo.signingCertificate).to.eql(fixtures.SIGNING_CERTIFICATE_PEM);
-				expect(signatureInfo.signingTime).to.eql("2015-07-21T22:00:13Z");
-			} catch (assertError) {
-				return done(assertError);
-			}
+			expect(e).to.be(null);
+			expect(signatureInfo.signingCertificate).to.eql(fixtures.SIGNING_CERTIFICATE_PEM);
+			expect(signatureInfo.signingTime).to.eql("2015-07-21T22:00:13Z");
 			done();
 		});
 	});
