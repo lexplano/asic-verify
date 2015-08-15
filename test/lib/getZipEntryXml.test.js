@@ -35,6 +35,8 @@ describe("getZipEntryXml()", function () {
 			});
 
 			expect(data.raw.toString()).to.eql(fixtures.PAKETO_INFO_XML);
+
+			expect(data.dom.getElementsByTagName("SukūrimoData")[0].textContent).to.eql("2015-07-22");
 		});
 	});
 
