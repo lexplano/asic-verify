@@ -1,6 +1,6 @@
 {
   "name": "asic-verify",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Verify ASiC (Associated Signature Container)",
   "main": "lib/index.js",
   "files": [
