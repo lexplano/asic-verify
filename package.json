@@ -37,7 +37,6 @@
     "lodash": "4.x",
     "node-forge": "0.7.x",
     "nodeify": "1.x",
-    "q": "1.x",
     "xml-crypto": "0.10.x",
     "xml2js": "0.4.x",
     "xmldom": "0.1.x",
