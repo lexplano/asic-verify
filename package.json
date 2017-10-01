@@ -4,8 +4,9 @@
   "description": "Verify ASiC (Associated Signature Container)",
   "main": "lib/index.js",
   "files": [
-    "cli.js",
-    "lib/"
+    "bin/",
+    "lib/",
+    "index.js"
   ],
   "bin": {
     "asic-verify": "./bin/asic-verify.js"
