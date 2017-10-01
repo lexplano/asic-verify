@@ -11,7 +11,7 @@
     "asic-verify": "./bin/asic-verify.js"
   },
   "scripts": {
-    "test": "lab -t 91 --lint --verbose"
+    "test": "lab -t 96 --lint --verbose"
   },
   "repository": {
     "type": "git",
@@ -38,7 +38,7 @@
     "node-forge": "0.7.x",
     "nodeify": "1.x",
     "q": "1.x",
-    "xml-crypto": "0.6.x",
+    "xml-crypto": "0.10.x",
     "xml2js": "0.4.x",
     "xmldom": "0.1.x",
     "yauzl": "2.x"
