@@ -11,8 +11,7 @@
     "asic-verify": "./cli.js"
   },
   "scripts": {
-    "test": "istanbul cover _mocha test/*.test.js test/**/*.test.js",
-    "dev": "mocha --watch test/*.test.js test/**/*.test.js lib/*.js"
+    "test": "lab -t 91 --lint"
   },
   "repository": {
     "type": "git",
@@ -45,8 +44,6 @@
     "yauzl": "2.3.1"
   },
   "devDependencies": {
-    "expect.js": "0.3.x",
-    "istanbul": "0.3.x",
-    "mocha": "2.x"
+    "lab": "14.x.x"
   }
 }

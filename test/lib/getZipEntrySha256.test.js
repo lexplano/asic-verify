@@ -1,34 +1,41 @@
-"use strict";
+'use strict';
 
-/*global describe, it, beforeEach, afterEach */
+const Lab = require('lab');
+const Fixtures = require('../fixtures');
+const GetZip = require('../../lib/getZip');
+const FindEntry = require('../../lib/findEntry');
+const GetZipEntrySha256 = require('../../lib/getZipEntrySha256');
 
-const expect = require("expect.js"),
-	fixtures = require("../fixtures"),
-	getZip = require("../../lib/getZip"),
-	findEntry = require("../../lib/findEntry"),
-	getZipEntrySha256 = require("../../lib/getZipEntrySha256");
+const { describe, it, expect, beforeEach, afterEach } = exports.lab = Lab.script();
 
-describe("getZipEntrySha256()", function () {
+describe('getZipEntrySha256', () => {
 
-	var fixtureZip;
-	beforeEach(function (done) {
-		getZip(fixtures.VALID_ZIP_PATH, function (err, zip) {
-			fixtureZip = zip;
-			done(err);
-		});
-	});
+    let fixtureZip;
+    beforeEach((done) => {
 
-	afterEach(function () {
-		fixtureZip.zipFile.close();
-	});
+        GetZip(Fixtures.VALID_ZIP_PATH, (err, zip) => {
 
-	it("should return the hash of an entry", function () {
-		return getZipEntrySha256(fixtureZip.zipFile, findEntry(fixtureZip.entries, "mimetype")).then(function (sha) {
-			expect(sha).to.eql("SfhiIVunWeabZOqZ9cCxFczyt4s5HJVWYHIV1xxcn3I=");
-		});
-	});
+            fixtureZip = zip;
+            done(err);
+        });
+    });
 
-	it("should errback when no such entry");
-	it("should errback when corrupt file");
+    afterEach((done) => {
+
+        fixtureZip.zipFile.close();
+        done();
+    });
+
+    it('should return the hash of an entry', (done) => {
+
+        GetZipEntrySha256(fixtureZip.zipFile, FindEntry(fixtureZip.entries, 'mimetype')).then((sha) => {
+
+            expect(sha).to.equal('SfhiIVunWeabZOqZ9cCxFczyt4s5HJVWYHIV1xxcn3I=');
+            done();
+        });
+    });
+
+    it('should errback when no such entry');
+    it('should errback when corrupt file');
 
 });

@@ -1,20 +1,23 @@
-"use strict";
+'use strict';
 
-/*global describe, it */
+const Lab = require('lab');
+const Fixtures = require('../fixtures');
+const DerToPem = require('../../lib/derToPem');
 
-const expect = require("expect.js"),
-	fixtures = require("../fixtures"),
-	derToPem = require("../../lib/derToPem");
+const { describe, it, expect } = exports.lab = Lab.script();
 
-function normalizeString(str) {
-	return str.toString().trim().replace(/\r/g, "");
-}
+const normalizeString = function (str) {
 
-describe("derToPem()", function () {
+    return str.toString().trim().replace(/\r/g, '');
+};
 
-	it("should convert DER to PEM", function () {
-		const ACTUAL_PEM = derToPem(fixtures.SIGNING_CERTIFICATE_DER);
-		expect(normalizeString(ACTUAL_PEM)).to.equal(fixtures.SIGNING_CERTIFICATE_PEM);
-	});
+describe('derToPem', () => {
+
+    it('should convert DER to PEM', (done) => {
+
+        const ACTUAL_PEM = DerToPem(Fixtures.SIGNING_CERTIFICATE_DER);
+        expect(normalizeString(ACTUAL_PEM)).to.equal(Fixtures.SIGNING_CERTIFICATE_PEM);
+        done();
+    });
 
 });

@@ -1,46 +1,53 @@
-"use strict";
+'use strict';
 
-/*global describe, it, beforeEach, afterEach */
+const Lab = require('lab');
+const Fixtures = require('../fixtures');
+const GetZip = require('../../lib/getZip');
+const FindEntry = require('../../lib/findEntry');
+const GetZipEntryXml = require('../../lib/getZipEntryXml');
 
-const expect = require("expect.js"),
-	fixtures = require("../fixtures"),
-	getZip = require("../../lib/getZip"),
-	findEntry = require("../../lib/findEntry"),
-	getZipEntryXml = require("../../lib/getZipEntryXml");
+const { describe, it, expect, beforeEach, afterEach } = exports.lab = Lab.script();
 
-describe("getZipEntryXml()", function () {
+describe('getZipEntryXml', () => {
 
-	var fixtureZip;
-	beforeEach(function (done) {
-		getZip(fixtures.VALID_ZIP_PATH, function (err, zip) {
-			fixtureZip = zip;
-			done(err);
-		});
-	});
+    let fixtureZip;
+    beforeEach((done) => {
 
-	afterEach(function () {
-		fixtureZip.zipFile.close();
-	});
+        GetZip(Fixtures.VALID_ZIP_PATH, (err, zip) => {
 
-	it("should return the parsed XML of an entry", function () {
-		return getZipEntryXml(fixtureZip.zipFile, findEntry(fixtureZip.entries, "PaketoInfo.xml")).then(function (data) {
-			expect(data.xml).to.eql({
-				paketoInfo: {
-					"ID": ["8CDFB892-BC65-4192-AA23-907A5F856662"],
-					"PaketoDydisMB": ["1"],
-					"SukūrimoData": ["2015-07-22"],
-					"TeisėsAktaiIki": ["2015-07-21"],
-					"TeisėsAktaiNuo": ["2015-07-21"]
-				}
-			});
+            fixtureZip = zip;
+            done(err);
+        });
+    });
 
-			expect(data.raw.toString()).to.eql(fixtures.PAKETO_INFO_XML);
+    afterEach((done) => {
 
-			expect(data.dom.getElementsByTagName("SukūrimoData")[0].textContent).to.eql("2015-07-22");
-		});
-	});
+        fixtureZip.zipFile.close();
+        done();
+    });
 
-	it("should errback when no such entry");
-	it("should errback when corrupt file");
+    it('should return the parsed XML of an entry', (done) => {
+
+        GetZipEntryXml(fixtureZip.zipFile, FindEntry(fixtureZip.entries, 'PaketoInfo.xml')).then((data) => {
+
+            expect(data.xml).to.equal({
+                paketoInfo: {
+                    'ID': ['8CDFB892-BC65-4192-AA23-907A5F856662'],
+                    'PaketoDydisMB': ['1'],
+                    'SukūrimoData': ['2015-07-22'],
+                    'TeisėsAktaiIki': ['2015-07-21'],
+                    'TeisėsAktaiNuo': ['2015-07-21']
+                }
+            });
+
+            expect(data.raw.toString()).to.equal(Fixtures.PAKETO_INFO_XML);
+
+            expect(data.dom.getElementsByTagName('SukūrimoData')[0].textContent).to.equal('2015-07-22');
+            done();
+        });
+    });
+
+    it('should errback when no such entry');
+    it('should errback when corrupt file');
 
 });

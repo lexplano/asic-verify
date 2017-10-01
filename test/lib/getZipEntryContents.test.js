@@ -1,34 +1,41 @@
-"use strict";
+'use strict';
 
-/*global describe, it, beforeEach, afterEach */
+const Lab = require('lab');
+const Fixtures = require('../fixtures');
+const GetZip = require('../../lib/getZip');
+const FindEntry = require('../../lib/findEntry');
+const GetZipEntryContents = require('../../lib/getZipEntryContents');
 
-const expect = require("expect.js"),
-	fixtures = require("../fixtures"),
-	getZip = require("../../lib/getZip"),
-	findEntry = require("../../lib/findEntry"),
-	getZipEntryContents = require("../../lib/getZipEntryContents");
+const { describe, it, expect, beforeEach, afterEach } = exports.lab = Lab.script();
 
-describe("getZipEntryContents()", function () {
+describe('getZipEntryContents', () => {
 
-	var fixtureZip;
-	beforeEach(function (done) {
-		getZip(fixtures.VALID_ZIP_PATH, function (err, zip) {
-			fixtureZip = zip;
-			done(err);
-		});
-	});
+    let fixtureZip;
+    beforeEach((done) => {
 
-	afterEach(function () {
-		fixtureZip.zipFile.close();
-	});
+        GetZip(Fixtures.VALID_ZIP_PATH, (err, zip) => {
 
-	it("should return the contents of an entry", function () {
-		return getZipEntryContents(fixtureZip.zipFile, findEntry(fixtureZip.entries, "mimetype")).then(function (contents) {
-			expect(contents.toString()).to.eql("application/vnd.etsi.asic-e+zip");
-		});
-	});
+            fixtureZip = zip;
+            done(err);
+        });
+    });
 
-	it("should errback when no such entry");
-	it("should errback when corrupt file");
+    afterEach((done) => {
+
+        fixtureZip.zipFile.close();
+        done();
+    });
+
+    it('should return the contents of an entry', (done) => {
+
+        GetZipEntryContents(fixtureZip.zipFile, FindEntry(fixtureZip.entries, 'mimetype')).then((contents) => {
+
+            expect(contents.toString()).to.equal('application/vnd.etsi.asic-e+zip');
+            done();
+        });
+    });
+
+    it('should errback when no such entry');
+    it('should errback when corrupt file');
 
 });

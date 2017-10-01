@@ -1,28 +1,32 @@
-"use strict";
+'use strict';
 
-var getZip = require("./lib/getZip"),
-	verifyMimetype = require("./lib/verifyMimetype"),
-	verifyManifest = require("./lib/verifyManifest"),
-	verifySignatures = require("./lib/verifySignatures"),
-	nodeify = require("nodeify");
+const GetZip = require('./lib/getZip');
+const VerifyMimetype = require('./lib/verifyMimetype');
+const VerifyManifest = require('./lib/verifyManifest');
+const VerifySignatures = require('./lib/verifySignatures');
+const Nodeify = require('nodeify');
 
-function verifyAsic(fn, cb) {
-	getZip(fn, function (err, zip) {
-		if (err) {
-			return cb(err);
-		}
+const verifyAsic = function (fn, cb) {
 
-		nodeify(Promise.all([verifyMimetype(zip), verifyManifest(zip), verifySignatures(zip)])
-			.then(function (res) {
-				zip.zipFile.close(); // @todo: we'll probably need a lib with finally() support...
-				return res[2]; // verifySignatures returns cert info
-			})
-			.catch(function (err) {
-				zip.zipFile.close();
-				throw err;
-			}), cb);
+    GetZip(fn, (err, zip) => {
 
-	});
-}
+        if (err) {
+            return cb(err);
+        }
+
+        Nodeify(Promise.all([VerifyMimetype(zip), VerifyManifest(zip), VerifySignatures(zip)])
+            .then((res) => {
+
+                zip.zipFile.close(); // @todo: we'll probably need a lib with finally() support...
+                return res[2]; // verifySignatures returns cert info
+            })
+            .catch((err) => {
+
+                zip.zipFile.close();
+                throw err;
+            }), cb);
+
+    });
+};
 
 module.exports = verifyAsic;

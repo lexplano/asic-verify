@@ -1,42 +1,58 @@
-"use strict";
+'use strict';
 
-/*global describe, it, beforeEach, afterEach */
+const Lab = require('lab');
+const Fixtures = require('../fixtures');
+const GetZip = require('../../lib/getZip');
+const FindEntry = require('../../lib/findEntry');
 
-const expect = require("expect.js"),
-	fixtures = require("../fixtures"),
-	getZip = require("../../lib/getZip"),
-	findEntry = require("../../lib/findEntry");
+const { describe, it, expect, beforeEach, afterEach } = exports.lab = Lab.script();
 
-describe("findEntry()", function () {
+describe('findEntry', () => {
 
-	var fixtureZip;
-	beforeEach(function (done) {
-		getZip(fixtures.VALID_ZIP_PATH, function (err, zip) {
-			fixtureZip = zip;
-			done(err);
-		});
-	});
+    let fixtureZip;
+    beforeEach((done) => {
 
-	afterEach(function () {
-		fixtureZip.zipFile.close();
-	});
+        GetZip(Fixtures.VALID_ZIP_PATH, (err, zip) => {
 
-	it("should return the entry", function () {
-		var entry = findEntry(fixtureZip.entries, "mimetype");
-		expect(entry.fileName).to.eql("mimetype");
-		expect(entry.crc32).to.eql(1173954954);
-	});
+            fixtureZip = zip;
+            done(err);
+        });
+    });
 
-	it("should throw when no such entry", function () {
-		expect(function () {
-			findEntry(fixtureZip.entries, "no-such-file");
-		}).to.throwException(/Could not find exactly one entry for no-such-file/);
-	});
+    afterEach((done) => {
 
-	it("should throw when entry exists twice (impossible...)", function () {
-		expect(function () {
-			findEntry([{fileName: "wtf"}, {fileName: "wtf"}], "wtf");
-		}).to.throwException(/Could not find exactly one entry for wtf/);
-	});
+        fixtureZip.zipFile.close();
+        done();
+    });
+
+    it('should return the entry', (done) => {
+
+        const entry = FindEntry(fixtureZip.entries, 'mimetype');
+        expect(entry.fileName).to.equal('mimetype');
+        expect(entry.crc32).to.equal(1173954954);
+        done();
+    });
+
+    it('should throw when no such entry', (done) => {
+
+        try {
+            FindEntry(fixtureZip.entries, 'no-such-file');
+        }
+        catch (e) {
+            expect(e).to.be.an.error('Could not find exactly one entry for no-such-file');
+            done();
+        }
+    });
+
+    it('should throw when entry exists twice (impossible...)', (done) => {
+
+        try {
+            FindEntry([{ fileName: 'wtf' }, { fileName: 'wtf' }], 'wtf');
+        }
+        catch (e) {
+            expect(e).to.be.an.error('Could not find exactly one entry for wtf');
+            done();
+        }
+    });
 
 });
