@@ -8,7 +8,7 @@
     "lib/"
   ],
   "bin": {
-    "asic-verify": "./cli.js"
+    "asic-verify": "./bin/asic-verify.js"
   },
   "scripts": {
     "test": "lab -t 91 --lint"

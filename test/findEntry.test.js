@@ -1,9 +1,9 @@
 'use strict';
 
 const Lab = require('lab');
-const Fixtures = require('../fixtures');
-const GetZip = require('../../lib/getZip');
-const FindEntry = require('../../lib/findEntry');
+const Fixtures = require('./fixtures');
+const GetZip = require('../lib/getZip');
+const FindEntry = require('../lib/findEntry');
 
 const { describe, it, expect, beforeEach, afterEach } = exports.lab = Lab.script();
 

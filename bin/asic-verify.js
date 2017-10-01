@@ -12,7 +12,7 @@ process.on('unhandledRejection', (err) => {
     console.warn('Unhandled rejection:', err, '\n', err.stack);
 });
 
-require('./index.js')(fn, (err) => {
+require('../index.js')(fn, (err) => {
 
     if (err) {
         throw err;

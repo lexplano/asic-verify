@@ -1,8 +1,8 @@
 'use strict';
 
 const Lab = require('lab');
-const Fixtures = require('../fixtures');
-const DerToPem = require('../../lib/derToPem');
+const Fixtures = require('./fixtures');
+const DerToPem = require('../lib/derToPem');
 
 const { describe, it, expect } = exports.lab = Lab.script();
 

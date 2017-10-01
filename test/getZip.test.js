@@ -1,8 +1,8 @@
 'use strict';
 
 const Lab = require('lab');
-const Fixtures = require('../fixtures');
-const GetZip = require('../../lib/getZip');
+const Fixtures = require('./fixtures');
+const GetZip = require('../lib/getZip');
 const Yauzl = require('yauzl');
 
 const { describe, it, expect } = exports.lab = Lab.script();
@@ -18,7 +18,7 @@ describe('getZip', () => {
 
         GetZip(Fixtures.VALID_ZIP_PATH, (err, zip) => {
 
-            expect(err).to.equal(null);
+            expect(err).not.to.exist();
             expect(zip.zipFile).to.be.instanceOf(Yauzl.ZipFile);
             expect(zip.zipFile).to.contain({ isOpen: true });
             expect(zip.entries.map(getFileName).sort()).to.equal([

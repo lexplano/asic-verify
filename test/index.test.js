@@ -2,7 +2,7 @@
 
 const Lab = require('lab');
 const Fixtures = require('./fixtures');
-const AsicVerify = require('../index');
+const AsicVerify = require('../lib/index');
 
 const { describe, it, expect } = exports.lab = Lab.script();
 
@@ -10,9 +10,9 @@ describe('asic-verify', () => {
 
     it('should return OK for valid.zip', (done) => {
 
-        AsicVerify(Fixtures.VALID_ZIP_PATH, (e, signatureInfo) => {
+        AsicVerify(Fixtures.VALID_ZIP_PATH, (err, signatureInfo) => {
 
-            expect(e).to.equal(null);
+            expect(err).not.to.exist();
             expect(signatureInfo.signingCertificate).to.equal(Fixtures.SIGNING_CERTIFICATE_PEM);
             expect(signatureInfo.signingTime).to.equal('2015-07-21T22:00:13Z');
             done();
