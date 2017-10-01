@@ -8,11 +8,10 @@
     "lib/"
   ],
   "bin": {
-    "asic-verify": "./cli.js"
+    "asic-verify": "./bin/asic-verify.js"
   },
   "scripts": {
-    "test": "istanbul cover _mocha test/*.test.js test/**/*.test.js",
-    "dev": "mocha --watch test/*.test.js test/**/*.test.js lib/*.js"
+    "test": "lab -t 95 --lint --verbose"
   },
   "repository": {
     "type": "git",
@@ -30,23 +29,20 @@
   },
   "homepage": "https://github.com/lexplano/asic-verify#readme",
   "engines": {
-    "node": ">=1"
+    "node": ">=8"
   },
   "dependencies": {
     "concat-stream": "1.x",
     "denodeify": "1.x",
-    "lodash": "3.x",
-    "node-forge": "0.6.x",
+    "lodash": "4.x",
+    "node-forge": "0.7.x",
     "nodeify": "1.x",
-    "q": "1.x",
-    "xml-crypto": "0.6.x",
+    "xml-crypto": "0.10.x",
     "xml2js": "0.4.x",
     "xmldom": "0.1.x",
     "yauzl": "2.x"
   },
   "devDependencies": {
-    "expect.js": "0.3.x",
-    "istanbul": "0.3.x",
-    "mocha": "2.x"
+    "lab": "14.x.x"
   }
 }
