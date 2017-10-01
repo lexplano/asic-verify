@@ -11,7 +11,7 @@
     "asic-verify": "./bin/asic-verify.js"
   },
   "scripts": {
-    "test": "lab -t 96 --lint --verbose"
+    "test": "lab -t 95 --lint --verbose"
   },
   "repository": {
     "type": "git",
