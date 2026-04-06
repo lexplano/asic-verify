@@ -1,16 +1,14 @@
-'use strict';
-
-const Fixtures = require('./fixtures');
-const GetZip = require('../lib/getZip');
-const FindEntry = require('../lib/findEntry');
-const GetZipEntrySha256 = require('../lib/getZipEntrySha256');
+import { VALID_ZIP_PATH } from './fixtures/index.js';
+import { getZip } from '../lib/getZip.js';
+import { findEntry } from '../lib/findEntry.js';
+import { getZipEntrySha256 } from '../lib/getZipEntrySha256.js';
 
 describe('getZipEntrySha256', () => {
 
     let fixtureZip;
     beforeEach(async () => {
 
-        fixtureZip = await GetZip(Fixtures.VALID_ZIP_PATH);
+        fixtureZip = await getZip(VALID_ZIP_PATH);
     });
 
     afterEach(() => {
@@ -20,7 +18,7 @@ describe('getZipEntrySha256', () => {
 
     it('should return the hash of an entry', async () => {
 
-        const sha = await GetZipEntrySha256(fixtureZip.zipFile, FindEntry(fixtureZip.entries, 'mimetype'));
+        const sha = await getZipEntrySha256(fixtureZip.zipFile, findEntry(fixtureZip.entries, 'mimetype'));
         expect(sha).toBe('SfhiIVunWeabZOqZ9cCxFczyt4s5HJVWYHIV1xxcn3I=');
     });
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-'use strict';
+
+import { verifyAsic } from '../lib/index.js';
 
 const fn = process.argv[2];
 
@@ -7,11 +8,11 @@ if (!fn) {
     throw new Error('File name not provided');
 }
 
-require('../index.js')(fn).then(() => {
-
+try {
+    await verifyAsic(fn);
     console.log('OK');
-}).catch((err) => {
-
+}
+catch (err) {
     console.error(err.message);
     process.exit(1);
-});
+}

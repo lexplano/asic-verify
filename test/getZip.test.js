@@ -1,14 +1,12 @@
-'use strict';
-
-const Fixtures = require('./fixtures');
-const GetZip = require('../lib/getZip');
-const Yauzl = require('yauzl');
+import { VALID_ZIP_PATH } from './fixtures/index.js';
+import { getZip } from '../lib/getZip.js';
+import Yauzl from 'yauzl';
 
 describe('getZip', () => {
 
     it('should return a zip descriptor with entries', async () => {
 
-        const zip = await GetZip(Fixtures.VALID_ZIP_PATH);
+        const zip = await getZip(VALID_ZIP_PATH);
         expect(zip.zipFile).toBeInstanceOf(Yauzl.ZipFile);
         expect(zip.zipFile).toMatchObject({ isOpen: true });
         expect(zip.entries.map(({ fileName }) => fileName).sort()).toEqual([
@@ -42,7 +40,7 @@ describe('getZip', () => {
 
     it('should reject when no such file', async () => {
 
-        await expect(GetZip('no-such-file'))
+        await expect(getZip('no-such-file'))
             .rejects.toThrow('ENOENT: no such file or directory, open \'no-such-file\'');
     });
 

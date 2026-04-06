@@ -2,11 +2,11 @@
   "name": "asic-verify",
   "version": "0.2.1",
   "description": "Verify ASiC (Associated Signature Container)",
+  "type": "module",
   "main": "lib/index.js",
   "files": [
     "bin/",
-    "lib/",
-    "index.js"
+    "lib/"
   ],
   "bin": {
     "asic-verify": "./bin/asic-verify.js"

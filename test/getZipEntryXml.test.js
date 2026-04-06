@@ -1,16 +1,14 @@
-'use strict';
-
-const Fixtures = require('./fixtures');
-const GetZip = require('../lib/getZip');
-const FindEntry = require('../lib/findEntry');
-const GetZipEntryXml = require('../lib/getZipEntryXml');
+import {PAKETO_INFO_XML, VALID_ZIP_PATH} from './fixtures/index.js';
+import { getZip } from '../lib/getZip.js';
+import { findEntry } from '../lib/findEntry.js';
+import { getZipEntryXml } from '../lib/getZipEntryXml.js';
 
 describe('getZipEntryXml', () => {
 
     let fixtureZip;
     beforeEach(async () => {
 
-        fixtureZip = await GetZip(Fixtures.VALID_ZIP_PATH);
+        fixtureZip = await getZip(VALID_ZIP_PATH);
     });
 
     afterEach(() => {
@@ -20,7 +18,7 @@ describe('getZipEntryXml', () => {
 
     it('should return the parsed XML of an entry', async () => {
 
-        const data = await GetZipEntryXml(fixtureZip.zipFile, FindEntry(fixtureZip.entries, 'PaketoInfo.xml'));
+        const data = await getZipEntryXml(fixtureZip.zipFile, findEntry(fixtureZip.entries, 'PaketoInfo.xml'));
 
         expect(data.xml).toEqual({
             paketoInfo: {
@@ -32,7 +30,7 @@ describe('getZipEntryXml', () => {
             }
         });
 
-        expect(data.raw.toString()).toBe(Fixtures.PAKETO_INFO_XML);
+        expect(data.raw.toString()).toBe(PAKETO_INFO_XML);
 
         expect(data.dom.getElementsByTagName('SukūrimoData')[0].textContent).toBe('2015-07-22');
     });

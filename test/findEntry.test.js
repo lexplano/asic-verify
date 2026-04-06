@@ -1,15 +1,13 @@
-'use strict';
-
-const Fixtures = require('./fixtures');
-const GetZip = require('../lib/getZip');
-const FindEntry = require('../lib/findEntry');
+import { VALID_ZIP_PATH } from './fixtures/index.js';
+import { getZip } from '../lib/getZip.js';
+import { findEntry } from '../lib/findEntry.js';
 
 describe('findEntry', () => {
 
     let fixtureZip;
     beforeEach(async () => {
 
-        fixtureZip = await GetZip(Fixtures.VALID_ZIP_PATH);
+        fixtureZip = await getZip(VALID_ZIP_PATH);
     });
 
     afterEach(() => {
@@ -19,20 +17,20 @@ describe('findEntry', () => {
 
     it('should return the entry', () => {
 
-        const entry = FindEntry(fixtureZip.entries, 'mimetype');
+        const entry = findEntry(fixtureZip.entries, 'mimetype');
         expect(entry.fileName).toBe('mimetype');
         expect(entry.crc32).toBe(1173954954);
     });
 
     it('should throw when no such entry', () => {
 
-        expect(() => FindEntry(fixtureZip.entries, 'no-such-file'))
+        expect(() => findEntry(fixtureZip.entries, 'no-such-file'))
             .toThrow('Could not find exactly one entry for no-such-file');
     });
 
     it('should throw when entry exists twice (impossible...)', () => {
 
-        expect(() => FindEntry([{ fileName: 'wtf' }, { fileName: 'wtf' }], 'wtf'))
+        expect(() => findEntry([{ fileName: 'wtf' }, { fileName: 'wtf' }], 'wtf'))
             .toThrow('Could not find exactly one entry for wtf');
     });
 

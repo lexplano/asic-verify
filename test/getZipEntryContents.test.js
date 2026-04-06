@@ -1,16 +1,14 @@
-'use strict';
-
-const Fixtures = require('./fixtures');
-const GetZip = require('../lib/getZip');
-const FindEntry = require('../lib/findEntry');
-const GetZipEntryContents = require('../lib/getZipEntryContents');
+import { VALID_ZIP_PATH } from './fixtures/index.js';
+import { getZip } from '../lib/getZip.js';
+import { findEntry } from '../lib/findEntry.js';
+import { getZipEntryContents } from '../lib/getZipEntryContents.js';
 
 describe('getZipEntryContents', () => {
 
     let fixtureZip;
     beforeEach(async () => {
 
-        fixtureZip = await GetZip(Fixtures.VALID_ZIP_PATH);
+        fixtureZip = await getZip(VALID_ZIP_PATH);
     });
 
     afterEach(() => {
@@ -20,7 +18,7 @@ describe('getZipEntryContents', () => {
 
     it('should return the contents of an entry', async () => {
 
-        const contents = await GetZipEntryContents(fixtureZip.zipFile, FindEntry(fixtureZip.entries, 'mimetype'));
+        const contents = await getZipEntryContents(fixtureZip.zipFile, findEntry(fixtureZip.entries, 'mimetype'));
         expect(contents.toString()).toBe('application/vnd.etsi.asic-e+zip');
     });
 
