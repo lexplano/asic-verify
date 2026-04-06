@@ -1,7 +1,7 @@
 import { writeFileSync, unlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { VALID_ZIP_PATH } from './fixtures/index.js';
+import { VALID_ZIP_PATH, createCorruptCentralDirectoryBuffer } from './fixtures/index.js';
 import { getZip } from '../lib/getZip.js';
 import Yauzl from 'yauzl';
 
@@ -53,6 +53,17 @@ describe('getZip', () => {
         writeFileSync(tmpPath, 'not a zip file');
         try {
             await expect(getZip(tmpPath)).rejects.toThrow('End of central directory record signature not found');
+        } finally {
+            unlinkSync(tmpPath);
+        }
+    });
+
+    it('should reject when central directory is corrupt', async () => {
+
+        const tmpPath = join(tmpdir(), `corrupt-cd-${Date.now()}.zip`);
+        writeFileSync(tmpPath, createCorruptCentralDirectoryBuffer());
+        try {
+            await expect(getZip(tmpPath)).rejects.toThrow();
         } finally {
             unlinkSync(tmpPath);
         }

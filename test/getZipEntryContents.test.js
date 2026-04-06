@@ -1,7 +1,7 @@
 import { writeFileSync, unlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { VALID_ZIP_PATH, CORRUPT_ZIP_ENTRY, createCorruptZipBuffer } from './fixtures/index.js';
+import { VALID_ZIP_PATH, CORRUPT_ZIP_ENTRY, createCorruptZipBuffer, createCorruptLocalHeaderBuffer } from './fixtures/index.js';
 import { getZip } from '../lib/getZip.js';
 import { findEntry } from '../lib/findEntry.js';
 import { getZipEntryContents } from '../lib/getZipEntryContents.js';
@@ -39,6 +39,21 @@ describe('getZipEntryContents', () => {
         try {
             await expect(
                 getZipEntryContents(zip.zipFile, findEntry(zip.entries, CORRUPT_ZIP_ENTRY))
+            ).rejects.toThrow();
+        } finally {
+            zip.zipFile.close();
+            unlinkSync(tmpPath);
+        }
+    });
+
+    it('should reject when entry cannot be opened', async () => {
+
+        const tmpPath = join(tmpdir(), `corrupt-header-${Date.now()}.zip`);
+        writeFileSync(tmpPath, createCorruptLocalHeaderBuffer());
+        const zip = await getZip(tmpPath);
+        try {
+            await expect(
+                getZipEntryContents(zip.zipFile, findEntry(zip.entries, 'mimetype'))
             ).rejects.toThrow();
         } finally {
             zip.zipFile.close();
