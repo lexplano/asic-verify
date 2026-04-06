@@ -1,58 +1,33 @@
-'use strict';
-
-const Lab = require('lab');
-const Fixtures = require('./fixtures');
-const GetZip = require('../lib/getZip');
-const FindEntry = require('../lib/findEntry');
-
-const { describe, it, expect, beforeEach, afterEach } = exports.lab = Lab.script();
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { VALID_ZIP_PATH } from './fixtures/index.js';
+import { getZip } from '../lib/getZip.js';
+import { findEntry } from '../lib/findEntry.js';
 
 describe('findEntry', () => {
+  let fixtureZip;
+  beforeEach(async () => {
+    fixtureZip = await getZip(VALID_ZIP_PATH);
+  });
 
-    let fixtureZip;
-    beforeEach((done) => {
+  afterEach(() => {
+    fixtureZip.zipFile.close();
+  });
 
-        GetZip(Fixtures.VALID_ZIP_PATH, (err, zip) => {
+  it('should return the entry', () => {
+    const entry = findEntry(fixtureZip.entries, 'mimetype');
+    expect(entry.fileName).toBe('mimetype');
+    expect(entry.crc32).toBe(1173954954);
+  });
 
-            fixtureZip = zip;
-            done(err);
-        });
-    });
+  it('should throw when no such entry', () => {
+    expect(() => findEntry(fixtureZip.entries, 'no-such-file')).toThrow(
+      'Could not find exactly one entry for no-such-file',
+    );
+  });
 
-    afterEach((done) => {
-
-        fixtureZip.zipFile.close();
-        done();
-    });
-
-    it('should return the entry', (done) => {
-
-        const entry = FindEntry(fixtureZip.entries, 'mimetype');
-        expect(entry.fileName).to.equal('mimetype');
-        expect(entry.crc32).to.equal(1173954954);
-        done();
-    });
-
-    it('should throw when no such entry', (done) => {
-
-        try {
-            FindEntry(fixtureZip.entries, 'no-such-file');
-        }
-        catch (e) {
-            expect(e).to.be.an.error('Could not find exactly one entry for no-such-file');
-            done();
-        }
-    });
-
-    it('should throw when entry exists twice (impossible...)', (done) => {
-
-        try {
-            FindEntry([{ fileName: 'wtf' }, { fileName: 'wtf' }], 'wtf');
-        }
-        catch (e) {
-            expect(e).to.be.an.error('Could not find exactly one entry for wtf');
-            done();
-        }
-    });
-
+  it('should throw when entry exists twice (impossible...)', () => {
+    expect(() => findEntry([{ fileName: 'wtf' }, { fileName: 'wtf' }], 'wtf')).toThrow(
+      'Could not find exactly one entry for wtf',
+    );
+  });
 });

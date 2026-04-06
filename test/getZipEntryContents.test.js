@@ -1,41 +1,59 @@
-'use strict';
-
-const Lab = require('lab');
-const Fixtures = require('./fixtures');
-const GetZip = require('../lib/getZip');
-const FindEntry = require('../lib/findEntry');
-const GetZipEntryContents = require('../lib/getZipEntryContents');
-
-const { describe, it, expect, beforeEach, afterEach } = exports.lab = Lab.script();
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { writeFileSync, unlinkSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import {
+  VALID_ZIP_PATH,
+  CORRUPT_ZIP_ENTRY,
+  createCorruptZipBuffer,
+  createCorruptLocalHeaderBuffer,
+} from './fixtures/index.js';
+import { getZip } from '../lib/getZip.js';
+import { findEntry } from '../lib/findEntry.js';
+import { getZipEntryContents } from '../lib/getZipEntryContents.js';
 
 describe('getZipEntryContents', () => {
+  let fixtureZip;
+  beforeEach(async () => {
+    fixtureZip = await getZip(VALID_ZIP_PATH);
+  });
 
-    let fixtureZip;
-    beforeEach((done) => {
+  afterEach(() => {
+    fixtureZip.zipFile.close();
+  });
 
-        GetZip(Fixtures.VALID_ZIP_PATH, (err, zip) => {
+  it('should return the contents of an entry', async () => {
+    const contents = await getZipEntryContents(fixtureZip.zipFile, findEntry(fixtureZip.entries, 'mimetype'));
+    expect(contents.toString()).toBe('application/vnd.etsi.asic-e+zip');
+  });
 
-            fixtureZip = zip;
-            done(err);
-        });
-    });
+  it('should reject when no such entry', () => {
+    expect(() => getZipEntryContents(fixtureZip.zipFile, findEntry(fixtureZip.entries, 'nonexistent.txt'))).toThrow(
+      'Could not find exactly one entry for nonexistent.txt',
+    );
+  });
 
-    afterEach((done) => {
+  it('should reject when corrupt file', async () => {
+    const tmpPath = join(tmpdir(), `corrupt-${Date.now()}.zip`);
+    writeFileSync(tmpPath, createCorruptZipBuffer());
+    const zip = await getZip(tmpPath);
+    try {
+      await expect(getZipEntryContents(zip.zipFile, findEntry(zip.entries, CORRUPT_ZIP_ENTRY))).rejects.toThrow();
+    } finally {
+      zip.zipFile.close();
+      unlinkSync(tmpPath);
+    }
+  });
 
-        fixtureZip.zipFile.close();
-        done();
-    });
-
-    it('should return the contents of an entry', (done) => {
-
-        GetZipEntryContents(fixtureZip.zipFile, FindEntry(fixtureZip.entries, 'mimetype')).then((contents) => {
-
-            expect(contents.toString()).to.equal('application/vnd.etsi.asic-e+zip');
-            done();
-        });
-    });
-
-    it('should errback when no such entry');
-    it('should errback when corrupt file');
-
+  it('should reject when entry cannot be opened', async () => {
+    const tmpPath = join(tmpdir(), `corrupt-header-${Date.now()}.zip`);
+    writeFileSync(tmpPath, createCorruptLocalHeaderBuffer());
+    const zip = await getZip(tmpPath);
+    try {
+      await expect(getZipEntryContents(zip.zipFile, findEntry(zip.entries, 'mimetype'))).rejects.toThrow();
+    } finally {
+      zip.zipFile.close();
+      unlinkSync(tmpPath);
+    }
+  });
 });

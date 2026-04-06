@@ -1,21 +1,17 @@
 #!/usr/bin/env node
-'use strict';
+
+import { verifyAsic } from '../lib/index.js';
 
 const fn = process.argv[2];
 
 if (!fn) {
-    throw new Error('File name not provided');
+  throw new Error('File name not provided');
 }
 
-process.on('unhandledRejection', (err) => {
-
-    console.warn('Unhandled rejection:', err, '\n', err.stack);
-});
-
-require('../index.js')(fn, (err) => {
-
-    if (err) {
-        throw err;
-    }
-    console.log('OK');
-});
+try {
+  await verifyAsic(fn);
+  console.log('OK');
+} catch (err) {
+  console.error(err.message);
+  process.exit(1);
+}
