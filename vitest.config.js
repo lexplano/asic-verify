@@ -6,7 +6,7 @@ export default defineConfig({
         coverage: {
             provider: 'v8',
             include: ['lib/**/*.js'],
-            reporter: ['text', 'html'],
+            reporter: ['text'],
             thresholds: {
                 statements: 95,
                 branches: 78,
