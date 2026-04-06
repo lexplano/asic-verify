@@ -1,58 +1,39 @@
 'use strict';
 
-const Lab = require('lab');
 const Fixtures = require('./fixtures');
 const GetZip = require('../lib/getZip');
 const FindEntry = require('../lib/findEntry');
 
-const { describe, it, expect, beforeEach, afterEach } = exports.lab = Lab.script();
-
 describe('findEntry', () => {
 
     let fixtureZip;
-    beforeEach((done) => {
+    beforeEach(async () => {
 
-        GetZip(Fixtures.VALID_ZIP_PATH, (err, zip) => {
-
-            fixtureZip = zip;
-            done(err);
-        });
+        fixtureZip = await GetZip(Fixtures.VALID_ZIP_PATH);
     });
 
-    afterEach((done) => {
+    afterEach(() => {
 
         fixtureZip.zipFile.close();
-        done();
     });
 
-    it('should return the entry', (done) => {
+    it('should return the entry', () => {
 
         const entry = FindEntry(fixtureZip.entries, 'mimetype');
-        expect(entry.fileName).to.equal('mimetype');
-        expect(entry.crc32).to.equal(1173954954);
-        done();
+        expect(entry.fileName).toBe('mimetype');
+        expect(entry.crc32).toBe(1173954954);
     });
 
-    it('should throw when no such entry', (done) => {
+    it('should throw when no such entry', () => {
 
-        try {
-            FindEntry(fixtureZip.entries, 'no-such-file');
-        }
-        catch (e) {
-            expect(e).to.be.an.error('Could not find exactly one entry for no-such-file');
-            done();
-        }
+        expect(() => FindEntry(fixtureZip.entries, 'no-such-file'))
+            .toThrow('Could not find exactly one entry for no-such-file');
     });
 
-    it('should throw when entry exists twice (impossible...)', (done) => {
+    it('should throw when entry exists twice (impossible...)', () => {
 
-        try {
-            FindEntry([{ fileName: 'wtf' }, { fileName: 'wtf' }], 'wtf');
-        }
-        catch (e) {
-            expect(e).to.be.an.error('Could not find exactly one entry for wtf');
-            done();
-        }
+        expect(() => FindEntry([{ fileName: 'wtf' }, { fileName: 'wtf' }], 'wtf'))
+            .toThrow('Could not find exactly one entry for wtf');
     });
 
 });

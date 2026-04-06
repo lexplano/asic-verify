@@ -1,41 +1,30 @@
 'use strict';
 
-const Lab = require('lab');
 const Fixtures = require('./fixtures');
 const GetZip = require('../lib/getZip');
 const FindEntry = require('../lib/findEntry');
 const GetZipEntryContents = require('../lib/getZipEntryContents');
 
-const { describe, it, expect, beforeEach, afterEach } = exports.lab = Lab.script();
-
 describe('getZipEntryContents', () => {
 
     let fixtureZip;
-    beforeEach((done) => {
+    beforeEach(async () => {
 
-        GetZip(Fixtures.VALID_ZIP_PATH, (err, zip) => {
-
-            fixtureZip = zip;
-            done(err);
-        });
+        fixtureZip = await GetZip(Fixtures.VALID_ZIP_PATH);
     });
 
-    afterEach((done) => {
+    afterEach(() => {
 
         fixtureZip.zipFile.close();
-        done();
     });
 
-    it('should return the contents of an entry', (done) => {
+    it('should return the contents of an entry', async () => {
 
-        GetZipEntryContents(fixtureZip.zipFile, FindEntry(fixtureZip.entries, 'mimetype')).then((contents) => {
-
-            expect(contents.toString()).to.equal('application/vnd.etsi.asic-e+zip');
-            done();
-        });
+        const contents = await GetZipEntryContents(fixtureZip.zipFile, FindEntry(fixtureZip.entries, 'mimetype'));
+        expect(contents.toString()).toBe('application/vnd.etsi.asic-e+zip');
     });
 
-    it('should errback when no such entry');
-    it('should errback when corrupt file');
+    it.todo('should errback when no such entry');
+    it.todo('should errback when corrupt file');
 
 });

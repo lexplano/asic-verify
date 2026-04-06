@@ -7,15 +7,11 @@ if (!fn) {
     throw new Error('File name not provided');
 }
 
-process.on('unhandledRejection', (err) => {
+require('../index.js')(fn).then(() => {
 
-    console.warn('Unhandled rejection:', err, '\n', err.stack);
-});
-
-require('../index.js')(fn, (err) => {
-
-    if (err) {
-        throw err;
-    }
     console.log('OK');
+}).catch((err) => {
+
+    console.error(err.message);
+    process.exit(1);
 });

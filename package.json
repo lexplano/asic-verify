@@ -12,7 +12,7 @@
     "asic-verify": "./bin/asic-verify.js"
   },
   "scripts": {
-    "test": "lab -t 95 --lint --verbose"
+    "test": "vitest run --coverage"
   },
   "repository": {
     "type": "git",
@@ -30,20 +30,18 @@
   },
   "homepage": "https://github.com/lexplano/asic-verify#readme",
   "engines": {
-    "node": ">=8"
+    "node": ">=24"
   },
   "dependencies": {
-    "concat-stream": "1.x",
-    "denodeify": "1.x",
-    "lodash": "4.x",
-    "node-forge": "0.7.x",
-    "nodeify": "1.x",
-    "xml-crypto": "0.10.x",
-    "xml2js": "0.4.x",
-    "xmldom": "0.1.x",
-    "yauzl": "2.x"
+    "@xmldom/xmldom": "^0.9.9",
+    "concat-stream": "^2.0.0",
+    "lodash": "^4.18.1",
+    "xml-crypto": "^6.1.2",
+    "xml2js": "^0.6.2",
+    "yauzl": "^3.3.0"
   },
   "devDependencies": {
-    "lab": "14.x.x"
+    "@vitest/coverage-v8": "^4.1.2",
+    "vitest": "^4.1.2"
   }
 }
