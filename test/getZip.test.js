@@ -1,3 +1,6 @@
+import { writeFileSync, unlinkSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { VALID_ZIP_PATH } from './fixtures/index.js';
 import { getZip } from '../lib/getZip.js';
 import Yauzl from 'yauzl';
@@ -44,6 +47,15 @@ describe('getZip', () => {
             .rejects.toThrow('ENOENT: no such file or directory, open \'no-such-file\'');
     });
 
-    it.todo('should erroback when file corrupt');
+    it('should reject when file corrupt', async () => {
+
+        const tmpPath = join(tmpdir(), `corrupt-${Date.now()}.zip`);
+        writeFileSync(tmpPath, 'not a zip file');
+        try {
+            await expect(getZip(tmpPath)).rejects.toThrow('End of central directory record signature not found');
+        } finally {
+            unlinkSync(tmpPath);
+        }
+    });
 
 });
