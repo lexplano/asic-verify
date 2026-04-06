@@ -4,19 +4,16 @@ Verify ASiC (Associated Signature Container)
 ## Usage
 
 ```js
-var asicVerify = require("asic-verify");
+import { verifyAsic } from 'asic-verify';
 
-asicVerify("/path/to/some-package.asice", function(err, signedSignatureProperties) {
-
-	if (err) {
-		console.error("Verification failed with an error", err);
-	} else {
-		console.log("Verified OK");
-		console.log("Signed on ", signedSignatureProperties.signingTime);
-		console.log("Signed by ", signedSignatureProperties.signingCertificate);
-	}
-
-});
+try {
+  const signedSignatureProperties = await verifyAsic('/path/to/some-package.asice');
+  console.log('Verified OK');
+  console.log('Signed on ', signedSignatureProperties.signingTime);
+  console.log('Signed by ', signedSignatureProperties.signingCertificate);
+} catch (err) {
+  console.error('Verification failed with an error', err);
+}
 ```
 
 ```sh
