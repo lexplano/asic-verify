@@ -12,7 +12,9 @@
     "asic-verify": "./bin/asic-verify.js"
   },
   "scripts": {
-    "test": "vitest run --coverage"
+    "test": "vitest run --coverage && npm run lint",
+    "lint": "eslint lib bin test",
+    "format": "prettier --write lib bin test"
   },
   "repository": {
     "type": "git",
@@ -41,7 +43,12 @@
     "yauzl": "^3.3.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@vitest/coverage-v8": "^4.1.2",
+    "eslint": "^10.2.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.1",
     "vitest": "^4.1.2"
   }
 }
